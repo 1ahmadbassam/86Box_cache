@@ -139,6 +139,7 @@ extern int      xga_standalone_enabled;     /* (C) video option */
 extern uint32_t mem_size;                   /* (C) memory size (Installed on system board) */
 extern uint32_t isa_mem_size;               /* (C) memory size (ISA Memory Cards) */
 extern int      cpu;                        /* (C) cpu type */
+extern int      cache;                      /* (C) machine uses cache */
 extern int      cpu_use_dynarec;            /* (C) cpu uses/needs Dyna */
 extern int      fpu_type;                   /* (C) fpu type */
 extern int      fpu_softfloat;              /* (C) fpu uses softfloat */
