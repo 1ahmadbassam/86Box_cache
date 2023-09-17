@@ -8,6 +8,10 @@ Makefile
 /src/*.exe
 /src/86Box
 /src/include/86box/version.h
+/b64
+/bi686
+/bi686_mkb
+/bi686_mkb.old
 
 # Legacy Makefile
 /src/*.o
