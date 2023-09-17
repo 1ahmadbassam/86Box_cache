@@ -388,10 +388,9 @@ load_machine(void)
         mem_size = machine_get_max_ram(machine);
 
     cpu_use_dynarec = !!ini_section_get_int(cat, "cpu_use_dynarec", 0);
+    fpu_softfloat = !!ini_section_get_int(cat, "fpu_softfloat", 0);
     cache = !!ini_section_get_int(cat, "cache", 0);
     if ((fpu_type != FPU_NONE) && machine_has_flags(machine, MACHINE_SOFTFLOAT_ONLY))
-        fpu_softfloat = !!ini_section_get_int(cat, "fpu_softfloat", 0);
-
     if (machine_has_flags(machine, MACHINE_SOFTFLOAT_ONLY))
         fpu_softfloat = 1;
 
