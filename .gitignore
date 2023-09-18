@@ -9,9 +9,9 @@ Makefile
 /src/86Box
 /src/include/86box/version.h
 /b64
+/b64_qt
 /bi686
-/bi686_mkb
-/bi686_mkb.old
+/bi686_qt
 
 # Legacy Makefile
 /src/*.o
