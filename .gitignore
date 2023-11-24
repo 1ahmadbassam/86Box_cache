@@ -12,6 +12,7 @@ Makefile
 /b64_qt
 /bi686
 /bi686_qt
+/bi686_optim
 
 # Legacy Makefile
 /src/*.o
