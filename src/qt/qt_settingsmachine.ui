@@ -254,61 +254,78 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget_6" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QCheckBox" name="checkBoxDynamicRecompiler">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>1</horstretch>
-          <verstretch>1</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Dynamic Recompiler</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBoxFPUSoftfloat">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>1</horstretch>
-          <verstretch>1</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>SoftFloat FPU</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBoxCache">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>1</horstretch>
-          <verstretch>1</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Cache</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+        <layout class="QHBoxLayout" name="dynamicRecompilerLayout">
+     <item>
+      <widget class="QCheckBox" name="checkBoxDynamicRecompiler">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>2</horstretch>
+         <verstretch>2</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Dynamic Recompiler</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="softFloatLayout">
+     <item>
+      <widget class="QCheckBox" name="checkBoxFPUSoftfloat">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>2</horstretch>
+         <verstretch>2</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Softfloat FPU</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxCache">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>3</horstretch>
+         <verstretch>3</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Cache</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="softFloatWarningIcon">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="softFloatWarningText">
+       <property name="text">
+        <string>High performance impact</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="softFloatHorizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
