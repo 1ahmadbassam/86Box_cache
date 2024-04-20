@@ -254,7 +254,7 @@
     </widget>
    </item>
    <item>
-        <layout class="QHBoxLayout" name="dynamicRecompilerLayout">
+    <layout class="QHBoxLayout" name="dynamicRecompilerLayout">
      <item>
       <widget class="QCheckBox" name="checkBoxDynamicRecompiler">
        <property name="sizePolicy">
