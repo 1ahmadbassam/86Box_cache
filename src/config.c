@@ -314,9 +314,10 @@ load_machine(void)
         }
     }
 
-    cpu_override = ini_section_get_int(cat, "cpu_override", 0);
-    cpu_f        = NULL;
-    p            = ini_section_get_string(cat, "cpu_family", NULL);
+    cpu_override             = ini_section_get_int(cat, "cpu_override", 0);
+    cpu_override_interpreter = ini_section_get_int(cat, "cpu_override_interpreter", 0);
+    cpu_f                    = NULL;
+    p                        = ini_section_get_string(cat, "cpu_family", NULL);
     if (p) {
         /* Migrate CPU family changes. */
         if ((!strcmp(machines[machine].internal_name, "deskpro386") ||
@@ -746,7 +747,6 @@ load_ports(void)
     char         *p;
     char          temp[512];
     int           c;
-    int           d;
 
     memset(temp, 0, sizeof(temp));
 
@@ -769,14 +769,6 @@ load_ports(void)
         p                   = ini_section_get_string(cat, temp, "none");
         lpt_ports[c].device = lpt_device_get_from_internal_name(p);
     }
-
-    /* Legacy config compatibility. */
-    d = ini_section_get_int(cat, "lpt_enabled", 2);
-    if (d < 2) {
-        for (c = 0; c < PARALLEL_MAX; c++)
-            lpt_ports[c].enabled = d;
-    }
-    ini_section_delete_var(cat, "lpt_enabled");
 }
 
 /* Load "Storage Controllers" section. */
@@ -791,7 +783,7 @@ load_storage_controllers(void)
     int           min = 0;
     int           free_p = 0;
 
-    for (c = min; c < SCSI_BUS_MAX; c++) {
+    for (c = min; c < SCSI_CARD_MAX; c++) {
         sprintf(temp, "scsicard_%d", c + 1);
 
         p = ini_section_get_string(cat, temp, NULL);
@@ -1628,6 +1620,8 @@ config_load(void)
         dpi_scale       = 1;
         do_auto_pause   = 0;
 
+        cpu_override_interpreter = 0;
+
         fpu_type               = fpu_get_type(cpu_f, cpu, "none");
         gfxcard[0]             = video_get_video_from_internal_name("cga");
         vid_api                = plat_vidapi("default");
@@ -1950,6 +1944,10 @@ save_machine(void)
         ini_section_set_int(cat, "cpu_override", cpu_override);
     else
         ini_section_delete_var(cat, "cpu_override");
+    if (cpu_override_interpreter)
+        ini_section_set_int(cat, "cpu_override_interpreter", cpu_override);
+    else
+        ini_section_delete_var(cat, "cpu_override_interpreter");
 
     /* Downgrade compatibility with the previous CPU model system. */
     ini_section_delete_var(cat, "cpu_manufacturer");
@@ -2284,7 +2282,7 @@ save_storage_controllers(void)
 
     ini_section_delete_var(cat, "scsicard");
 
-    for (c = 0; c < SCSI_BUS_MAX; c++) {
+    for (c = 0; c < SCSI_CARD_MAX; c++) {
         sprintf(temp, "scsicard_%d", c + 1);
 
         if (scsi_card_current[c] == 0)

@@ -1393,7 +1393,7 @@ scsi_cdrom_read_blocks(scsi_cdrom_t *dev, int32_t *len, int first_batch, int ven
         type  = (dev->current_cdb[1] >> 2) & 7;
         flags = dev->current_cdb[9] | (((uint32_t) dev->current_cdb[10]) << 8);
     } else {
-        type  = 8;
+        type  = 8; /* Internal type code indicating both Mode 1 and Mode 2 Form 1 are allowed. */
         flags = 0x10;
     }
 
@@ -2794,6 +2794,15 @@ begin:
                 return;
             }
 
+            if (max_len <= 0) {
+                scsi_cdrom_set_phase(dev, SCSI_PHASE_STATUS);
+                dev->packet_status = PHASE_COMPLETE;
+                dev->callback      = 20.0 * CDROM_TIME;
+                scsi_cdrom_set_callback(dev);
+                scsi_cdrom_buf_free(dev);
+                return;
+            }
+
             if (!(cdb[2] & 0x40))
                 alloc_length = 4;
             else
@@ -3189,7 +3198,10 @@ begin:
                 size_idx     = 4;
 
                 memset(dev->buffer, 0, 8);
-                dev->buffer[0] = 5;    /*CD-ROM*/
+                if ((cdb[1] & 0xe0) || ((dev->cur_lun > 0x00) && (dev->cur_lun < 0xff)))
+                    dev->buffer[0] = 0x7f; /*No physical device on this LUN*/
+                else
+                    dev->buffer[0] = 5;    /*CD-ROM*/
                 dev->buffer[1] = 0x80; /*Removable*/
 
                 if (dev->drv->bus_type == CDROM_BUS_SCSI) {
