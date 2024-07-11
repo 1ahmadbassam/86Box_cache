@@ -29,6 +29,8 @@
 #define HAVE_STDARG_H
 #include <86box/86box.h>
 #include "cpu.h"
+#include "x86.h"
+#include "x87_sf.h"
 #include <86box/device.h>
 #include <86box/machine.h>
 #include <86box/io.h>
@@ -38,6 +40,7 @@
 #include <86box/nmi.h>
 #include <86box/pic.h>
 #include <86box/pci.h>
+#include <86box/timer.h>
 #include <86box/gdbstub.h>
 #include <86box/plat_fallthrough.h>
 #include <86box/plat_unused.h>
@@ -503,7 +506,8 @@ cpu_set(void)
     acycs = 0;
 #endif
 
-    soft_reset_pci = 0;
+    soft_reset_pci    = 0;
+    cpu_init          = 0;
 
     cpu_alt_reset     = 0;
     unmask_a20_in_smm = 0;
@@ -3489,7 +3493,7 @@ cpu_WRMSR(void)
                     break;
                 /* Time Stamp Counter */
                 case 0x10:
-                    tsc = EAX | ((uint64_t) EDX << 32);
+                    timer_set_new_tsc(EAX | ((uint64_t) EDX << 32));
                     break;
                 /* Performance Monitor - Control and Event Select */
                 case 0x11:
@@ -3565,7 +3569,7 @@ cpu_WRMSR(void)
                     break;
                 /* Time Stamp Counter */
                 case 0x10:
-                    tsc = EAX | ((uint64_t) EDX << 32);
+                    timer_set_new_tsc(EAX | ((uint64_t) EDX << 32));
                     break;
                 /* PERFCTR0 - Performance Counter Register 0 - aliased to TSC */
                 case 0xc1:
@@ -3661,7 +3665,7 @@ cpu_WRMSR(void)
                     break;
                 /* Time Stamp Counter */
                 case 0x00000010:
-                    tsc = EAX | ((uint64_t) EDX << 32);
+                    timer_set_new_tsc(EAX | ((uint64_t) EDX << 32));
                     break;
                 /* Array Access Register */
                 case 0x00000082:
@@ -3831,7 +3835,7 @@ amd_k_invalid_wrmsr:
                 /* Time Stamp Counter */
                 case 0x00000010:
                 case 0x80000010:
-                    tsc = EAX | ((uint64_t) EDX << 32);
+                    timer_set_new_tsc(EAX | ((uint64_t) EDX << 32));
                     break;
                 /* Performance Monitor - Control and Event Select */
                 case 0x00000011:
@@ -3916,7 +3920,7 @@ pentium_invalid_wrmsr:
                     msr.tr5 = EAX & 0x008f0f3b;
                 /* Time Stamp Counter */
                 case 0x10:
-                    tsc = EAX | ((uint64_t) EDX << 32);
+                    timer_set_new_tsc(EAX | ((uint64_t) EDX << 32));
                     break;
                 /* Performance Monitor - Control and Event Select */
                 case 0x11:
@@ -3949,7 +3953,7 @@ pentium_invalid_wrmsr:
                     break;
                 /* Time Stamp Counter */
                 case 0x10:
-                    tsc = EAX | ((uint64_t) EDX << 32);
+                    timer_set_new_tsc(EAX | ((uint64_t) EDX << 32));
                     break;
                 /* Unknown */
                 case 0x18:
